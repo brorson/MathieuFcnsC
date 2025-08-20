@@ -45,11 +45,17 @@ namespace mathieu {
     // Do EVD
     //printf("Even m = %d\n", m);
     retcode = make_matrix_ee(N,q,A);
-    if (retcode != 0) return SF_ERROR_NO_RESULT;
+    if (retcode != 0) {
+      free(A);
+      return SF_ERROR_NO_RESULT;
+    }
     //print_matrix(A, N, N);
     //printf("---------------------------------------\n");
     retcode = LAPACKE_dsyev(LAPACK_ROW_MAJOR, 'V', 'L', N, A, N, AA);
-    if (retcode != 0) return SF_ERROR_NO_RESULT;
+    if (retcode != 0) {
+	free(A);
+	return SF_ERROR_NO_RESULT;
+    }
     //print_matrix(A, N, N);
     //printf("---------------------------------------\n");    
     
@@ -67,7 +73,7 @@ namespace mathieu {
       idx = MATRIX_IDX(N, row, j);
       AA[j] = A[idx];
     }
-    
+    free(A);
     return retcode;
   }
 
@@ -89,11 +95,17 @@ namespace mathieu {
     // Do EVD
     //printf("Odd m = %d\n", m);
     retcode = make_matrix_eo(N,q,A);
-    if (retcode != 0) return SF_ERROR_NO_RESULT;
+    if (retcode != 0) {
+      free(A);
+      return SF_ERROR_NO_RESULT;
+    }
     //print_matrix(A, N, N);
     //printf("---------------------------------------\n");
     retcode = LAPACKE_dsyev(LAPACK_ROW_MAJOR, 'V', 'U', N, A, N, AA);
-    if (retcode != 0) return SF_ERROR_NO_RESULT;
+    if (retcode != 0) {
+      free(A);
+      return SF_ERROR_NO_RESULT;
+    }
     //print_matrix(A, N, N);
     //printf("---------------------------------------\n");    
     
@@ -109,7 +121,7 @@ namespace mathieu {
       idx = MATRIX_IDX(N, row, j);
       AA[j] = A[idx];
     }
-    
+    free(A);
     return retcode;
   }
 
@@ -139,11 +151,17 @@ namespace mathieu {
     // Do EVD
     //printf("Even m = %d\n", m);
     retcode = make_matrix_oe(N,q,A);
-    if (retcode != 0) return SF_ERROR_NO_RESULT;
+    if (retcode != 0) {
+      free(A);
+      return SF_ERROR_NO_RESULT;
+    }
     //print_matrix(A, N, N);
     //printf("---------------------------------------\n");
     retcode = LAPACKE_dsyev(LAPACK_ROW_MAJOR, 'V', 'L', N, A, N, AA);
-    if (retcode != 0) return SF_ERROR_NO_RESULT;
+    if (retcode != 0) {
+      free(A);
+      return SF_ERROR_NO_RESULT;
+    }
     //print_matrix(A, N, N);
     //printf("---------------------------------------\n");    
     
@@ -158,7 +176,7 @@ namespace mathieu {
       idx = MATRIX_IDX(N, row, j);
       AA[j] = A[idx];
     }
-    
+    free(A);
     return retcode;
   }
 
@@ -180,11 +198,17 @@ namespace mathieu {
     // Do EVD
     //printf("Odd m = %d\n", m);
     retcode = make_matrix_oo(N,q,A);
-    if (retcode != 0) return SF_ERROR_NO_RESULT;
+    if (retcode != 0) {
+      free(A);
+      return SF_ERROR_NO_RESULT;
+    }
     //print_matrix(A, N, N);
     //printf("---------------------------------------\n");
     retcode = LAPACKE_dsyev(LAPACK_ROW_MAJOR, 'V', 'U', N, A, N, AA);
-    if (retcode != 0) return SF_ERROR_NO_RESULT;
+    if (retcode != 0) {
+      free(A);
+      return SF_ERROR_NO_RESULT;
+    }
     //print_matrix(A, N, N);
     //printf("---------------------------------------\n");    
     
@@ -200,7 +224,7 @@ namespace mathieu {
       idx = MATRIX_IDX(N, row, j);
       AA[j] = A[idx];
     }
-    
+    free(A);
     return retcode;
   }
 

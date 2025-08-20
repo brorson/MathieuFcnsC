@@ -53,8 +53,10 @@ namespace mathieu {
       double *AA = (double *) calloc(N, sizeof(double));
       if (AA == NULL) return SF_ERROR_MEMORY;
       retcode = mathieu_coeffs_ee(N,q,m, AA);
-      if (retcode != SF_ERROR_OK) return retcode;
-
+      if (retcode != SF_ERROR_OK) {
+	free(AA);
+	return retcode;
+      }
       
       // Variables used in summing the Fourier series.
       double tt, td, cep, cem, cedp, cedm;
@@ -91,6 +93,7 @@ namespace mathieu {
       }
       *ce = SIGN(s)*(*ce);
       *ced = SIGN(s)*(*ced);
+      free(AA);
       
     } else {
       // Odd
@@ -100,7 +103,10 @@ namespace mathieu {
       double *AA = (double *) calloc(N, sizeof(double));
       if (AA == NULL) return SF_ERROR_MEMORY;
       retcode = mathieu_coeffs_eo(N,q,m, AA);
-      if (retcode != SF_ERROR_OK) return retcode;
+      if (retcode != SF_ERROR_OK) {
+	free(AA);
+	return retcode;
+      }
       
       // Variables used in summing the Fourier series.
       double tt, td, cep, cem, cedp, cedm;
@@ -139,6 +145,7 @@ namespace mathieu {
       *ce = SIGN(s)*(*ce);
       *ced = SIGN(s)*(*ced);
 
+      free(AA);
     } // if (m % 2 == 0)
 
     return retcode;
@@ -178,7 +185,10 @@ namespace mathieu {
       double *BB = (double *) calloc(N, sizeof(double));
       if (BB == NULL) return SF_ERROR_MEMORY;
       retcode = mathieu_coeffs_oe(N,q,m, BB);
-      if (retcode != SF_ERROR_OK) return retcode;
+      if (retcode != SF_ERROR_OK) {
+	free(BB);
+	return retcode;
+      }
       
       // Variables used in summing the Fourier series.
       double tt, td, sep, sem, sedp, sedm;
@@ -214,6 +224,7 @@ namespace mathieu {
       *se = SIGN(s)*(*se);
       *sed = SIGN(s)*(*sed);
       
+      free(BB);
     } else {
       // Odd
       //printf("Odd Mathieu se, m = %d\n", m);
@@ -222,7 +233,10 @@ namespace mathieu {
       double *BB = (double *) calloc(N, sizeof(double));
       if (BB == NULL) return SF_ERROR_MEMORY;
       retcode = mathieu_coeffs_oo(N,q,m, BB);
-      if (retcode != SF_ERROR_OK) return retcode;
+      if (retcode != SF_ERROR_OK) {
+	free(BB);
+	return retcode;
+      }
       
       // Variables used in summing the Fourier series.
       double tt, td, sep, sem, sedp, sedm;
@@ -257,8 +271,10 @@ namespace mathieu {
       }
       *se = SIGN(s)*(*se);
       *sed = SIGN(s)*(*sed);
+
+      free(BB);
     }
-    
+
     return retcode;
   } // int mathieu_se
 
@@ -319,13 +335,16 @@ namespace mathieu {
     // Use different coeffs depending upon whether m is even or odd.
     if (m % 2 == 0) {
       // Even
-      printf("Even Mathieu modmc1, m = %d\n", m);
+      // printf("Even Mathieu modmc1, m = %d\n", m);
 
       // Get coeff vector for even modmc1
       double *AA = (double *) calloc(N, sizeof(double));
       if (AA == NULL) return SF_ERROR_MEMORY;
       retcode = mathieu_coeffs_ee(N, q, m, AA);
-      if (retcode != SF_ERROR_OK) return retcode;
+      if (retcode != SF_ERROR_OK) {
+	free(AA);
+	return retcode;
+      }
       
       // Variables used in summing the Fourier series.
       // These are Float128 since some of the terms are near
@@ -429,15 +448,20 @@ namespace mathieu {
 	*mc1d = -sqq*(*mc1d)/AA[c];
       }
 
+      free(AA);
+      
     } else {
       // Odd -- m = 1, 3, 5, 7 ...
-      printf("Odd Mathieu modmc1, m = %d\n", m);
+      // printf("Odd Mathieu modmc1, m = %d\n", m);
 
       // Get coeff vector for even modmc1
       double *AA = (double *) calloc(N, sizeof(double));
       if (AA == NULL) return SF_ERROR_MEMORY;
       retcode = mathieu_coeffs_eo(N, q, m, AA);
-      if (retcode != SF_ERROR_OK) return retcode;
+      if (retcode != SF_ERROR_OK) {
+	free(AA);
+	return retcode;
+      }
       
       // Variables used in summing the Fourier series.
       _Float128 mc1p, mc1m, mc1dp, mc1dm;
@@ -547,8 +571,10 @@ namespace mathieu {
 	*mc1 = -(*mc1)/AA[c];    
 	*mc1d = -sqq*(*mc1d)/AA[c];
       }
+
+      free(AA);
     }
-    
+
     return retcode;
   } // int mathieu_modmc1
 
@@ -608,13 +634,16 @@ namespace mathieu {
     // Use different coeffs depending upon whether m is even or odd.
     if (m % 2 == 0) {
       // Even
-      printf("Even Mathieu modms1, m = %d\n", m);
+      // printf("Even Mathieu modms1, m = %d\n", m);
 
       // Get coeff vector for even modms1
       double *BB = (double *) calloc(N, sizeof(double));
       if (BB == NULL) return SF_ERROR_MEMORY;
       retcode = mathieu_coeffs_oe(N, q, m, BB);
-      if (retcode != SF_ERROR_OK) return retcode;
+      if (retcode != SF_ERROR_OK) {
+	free(BB);
+	return retcode;
+      }
       
       // Variables used in summing the Fourier series.
       // These are Float128 since some of the terms are near
@@ -722,15 +751,20 @@ namespace mathieu {
 	*ms1d = -sqq*(*ms1d)/BB[c];
       }
 
+      free(BB);
+
     } else {
       // Odd -- m = 1, 3, 5, 7 ...
-      printf("Odd Mathieu modms1, m = %d\n", m);
+      // printf("Odd Mathieu modms1, m = %d\n", m);
 
       // Get coeff vector for even modms1
       double *BB = (double *) calloc(N, sizeof(double));
       if (BB == NULL) return SF_ERROR_MEMORY;
       retcode = mathieu_coeffs_oo(N, q, m, BB);
-      if (retcode != SF_ERROR_OK) return retcode;
+      if (retcode != SF_ERROR_OK) {
+	free(BB);
+	return retcode;
+      }
       
       // Variables used in summing the Fourier series.
       _Float128 ms1p, ms1m, ms1dp, ms1dm;
@@ -835,8 +869,10 @@ namespace mathieu {
 	*ms1 = -(*ms1)/BB[c];    
 	*ms1d = -sqq*(*ms1d)/BB[c];
       }
+      
+      free(BB);
     }
-    
+
     return retcode;
   } // int mathieu_modms1
 
@@ -896,13 +932,16 @@ namespace mathieu {
     // Use different coeffs depending upon whether m is even or odd.
     if (m % 2 == 0) {
       // Even
-      printf("Even Mathieu modmc2, m = %d\n", m);
+      // printf("Even Mathieu modmc2, m = %d\n", m);
 
       // Get coeff vector for even modmc2
       double *AA = (double *) calloc(N, sizeof(double));
       if (AA == NULL) return SF_ERROR_MEMORY;
       retcode = mathieu_coeffs_ee(N, q, m, AA);
-      if (retcode != SF_ERROR_OK) return retcode;
+      if (retcode != SF_ERROR_OK) {
+	free(AA);
+	return retcode;
+      }
       
       // Variables used in summing the Fourier series.
       // These are Float128 since some of the terms are near
@@ -1003,15 +1042,20 @@ namespace mathieu {
 	*mc2d = -sqq*(*mc2d)/AA[c];
       }
 
+      free(AA);
+      
     } else {
       // Odd -- m = 1, 3, 5, 7 ...
-      printf("Odd Mathieu modmc2, m = %d\n", m);
+      // printf("Odd Mathieu modmc2, m = %d\n", m);
 
       // Get coeff vector for odd mc2
       double *AA = (double *) calloc(N, sizeof(double));
       if (AA == NULL) return SF_ERROR_MEMORY;
       retcode = mathieu_coeffs_eo(N, q, m, AA);
-      if (retcode != SF_ERROR_OK) return retcode;
+      if (retcode != SF_ERROR_OK) {
+	free(AA);
+	return retcode;
+      }
       
       // Variables used in summing the Fourier series.
       _Float128 mc2p, mc2m, mc2dp, mc2dm;
@@ -1116,8 +1160,10 @@ namespace mathieu {
 	*mc2 = -(*mc2)/AA[c];    
 	*mc2d = -sqq*(*mc2d)/AA[c];
       }
+
+      free(AA);
     }
-    
+
     return retcode;
   } // int mathieu_modmc2
 
@@ -1178,13 +1224,16 @@ namespace mathieu {
     // Use different coeffs depending upon whether m is even or odd.
     if (m % 2 == 0) {
       // Even
-      printf("Even Mathieu modms2, m = %d\n", m);
+      // printf("Even Mathieu modms2, m = %d\n", m);
 
       // Get coeff vector for even modms2
       double *BB = (double *) calloc(N, sizeof(double));
       if (BB == NULL) return SF_ERROR_MEMORY;
       retcode = mathieu_coeffs_oe(N, q, m, BB);
-      if (retcode != SF_ERROR_OK) return retcode;
+      if (retcode != SF_ERROR_OK) {
+	free(BB);
+	return retcode;
+      }
       
       // Variables used in summing the Fourier series.
       // These are Float128 since some of the terms are near
@@ -1293,15 +1342,20 @@ namespace mathieu {
 	*ms2d = -sqq*(*ms2d)/BB[c];
       }
 
+      free(BB);
+
     } else {
       // Odd -- m = 1, 3, 5, 7 ...
-      printf("Odd Mathieu modms2, m = %d\n", m);
+      // printf("Odd Mathieu modms2, m = %d\n", m);
 
       // Get coeff vector for even modms2
       double *BB = (double *) calloc(N, sizeof(double));
       if (BB == NULL) return SF_ERROR_MEMORY;
       retcode = mathieu_coeffs_oo(N, q, m, BB);
-      if (retcode != SF_ERROR_OK) return retcode;
+      if (retcode != SF_ERROR_OK) {
+	free(BB);
+	return retcode;
+      }
       
       // Variables used in summing the Fourier series.
       _Float128 ms2p, ms2m, ms2dp, ms2dm;
@@ -1406,8 +1460,10 @@ namespace mathieu {
 	*ms2 = -(*ms2)/BB[c];    
 	*ms2d = -sqq*(*ms2d)/BB[c];
       } 
+      
+      free(BB);
    }
-    
+
     return retcode;
   } // int mathieu_modms2
   
