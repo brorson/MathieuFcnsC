@@ -28,16 +28,27 @@ namespace mathieu {
  
     // Allocate vector for eigenvalues
     double *ww = (double *) calloc(N, sizeof(double));
-    if (ww == NULL) return SF_ERROR_MEMORY;
+    if (ww == NULL) {
+      free(A);
+      return SF_ERROR_MEMORY;
+    }
 
     // Do EVD
     if (m % 2 == 0) {
       // Even order m
       //printf("Even m = %d\n", m);
       retcode = make_matrix_ee(N,q,A);
-      if (retcode != 0) return retcode;
+      if (retcode != 0){
+	free(A);
+	free(ww);
+	return retcode;
+      }
       retcode = LAPACKE_dsyev(LAPACK_ROW_MAJOR, 'N', 'U', N, A, N, ww);
-      if (retcode != 0) return SF_ERROR_NO_RESULT;
+      if (retcode != 0) {
+	free(A);
+	free(ww);
+	return SF_ERROR_NO_RESULT;
+      }
       //print_matrix(ww, N, 1);
       
       // Sort ww vector from lowest to highest
@@ -52,9 +63,17 @@ namespace mathieu {
       // Odd order m
       //printf("Odd m = %d\n", d);      
       retcode = make_matrix_eo(N,q,A);
-      if (retcode != 0) return retcode;      
+      if (retcode != 0) {
+	free(A);
+	free(ww);
+	return retcode;
+      }
       retcode = LAPACKE_dsyev(LAPACK_ROW_MAJOR, 'N', 'U', N, A, N, ww);
-      if (retcode != 0) return SF_ERROR_NO_RESULT;
+      if (retcode != 0) {
+	free(A);
+	free(ww);
+	return SF_ERROR_NO_RESULT;
+      }
       //print_matrix(ww, N, 1);
       
       // Sort ww vector from lowest to highest
@@ -84,16 +103,27 @@ namespace mathieu {
 
     // Allocate vector for eigenvalues
     double *ww = (double *) calloc(N, sizeof(double));
-    if (ww == NULL) return SF_ERROR_MEMORY;
+    if (ww == NULL) {
+      free(B);
+      return SF_ERROR_MEMORY;
+    }
 
     // Do EVD
     if (m % 2 == 0) {
       // Even order m
       //printf("Even m = %d\n", m);
       retcode = make_matrix_oe(N,q,B);
-      if (retcode != 0) return retcode;
+      if (retcode != 0) {
+	free(B);
+	free(ww);
+	return retcode;
+      }
       retcode = LAPACKE_dsyev(LAPACK_ROW_MAJOR, 'N', 'U', N, B, N, ww);
-      if (retcode != 0) return SF_ERROR_NO_RESULT;
+      if (retcode != 0) {
+	free(B);
+	free(ww);
+	return SF_ERROR_NO_RESULT;
+      }
       //print_matrix(ww, N, 1);
       
       // Sort ww vector from lowest to highest
@@ -108,9 +138,17 @@ namespace mathieu {
       // Odd order m
       //printf("Odd m = %d\n", m);      
       retcode = make_matrix_oo(N,q,B);
-      if (retcode != 0) return retcode;
+      if (retcode != 0) {
+	free(B);
+	free(ww);
+	return retcode;
+      }
       retcode = LAPACKE_dsyev(LAPACK_ROW_MAJOR, 'N', 'U', N, B, N, ww);
-      if (retcode != 0) return SF_ERROR_NO_RESULT;
+      if (retcode != 0) {
+	free(B);
+	free(ww);
+	return SF_ERROR_NO_RESULT;
+      }
       //print_matrix(ww, N, 1);
       
       // Sort ww vector from lowest to highest
